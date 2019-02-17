@@ -1,0 +1,105 @@
+connection: base
+
+
+Language:
+  tableName: language
+  options:
+    service: false
+  columns:
+    id_language:
+      type: integer
+      primary: true
+      autoincrement: true
+    is_active:
+      type: boolean
+      default: false
+    is_main:
+      type: boolean
+      default: false
+    code:
+      type: string (8)
+      notnull: true
+    name:
+      type: string (255)
+      notnull: true
+    domain:
+      type: string (255)
+      notnull: true
+    locale: string (255)
+
+Label:
+  tableName: label
+  options:
+    service: false
+    select: o.*, t.id_language as id_language, t.value as value, o.module as module, o.created_at as created_at, o.modified_at as modified_at
+  columns:
+    id_label:
+      type: integer
+      primary: true
+      autoincrement: true
+    label:
+      type: string (255)
+      notnull: true
+    type:
+      type: string (32)
+      notnull: true
+      default: 'label'
+    created_at:
+      type: timestamp
+      notnull: true
+    modified_at:
+      type: timestamp
+      notnull: true
+    module:
+      type: string (255)
+      notnull: true
+    from_import:
+      type: boolean
+      default: false
+
+LabelTranslation:
+  tableName: label_translation
+  attributes:
+    coll_key: id_language
+  options:
+    service: false
+  columns:
+    id_label:
+      type: integer
+      primary: true
+    id_language:
+      type: integer
+      primary: true
+    value:
+      type: string
+      notnull: true
+  relations:
+    Label:
+      local: id_label
+      foreign: id_label
+      foreignAlias: Translations
+      type: one
+      foreignType: many
+      onDelete: CASCADE
+    Language:
+      local: id_language
+      foreign: id_language
+      foreignAlias: LabelTranslations
+      type: one
+      foreignType: many
+      onDelete: CASCADE
+
+Setting:
+  tableName: setting
+  attributes:
+    coll_key: key
+  columns:
+    id_setting:
+      type: integer
+      primary: true
+      autoincrement: true
+    key:
+      type: string (255)
+    value:
+      type: string
+      notnull: true

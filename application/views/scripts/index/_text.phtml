@@ -1,0 +1,5 @@
+<?php if(isset($this->col) && isset($this->model[$this->col])): ?>
+    <?=$this->escape($this->model[$this->col])?>
+<?php elseif(isset($this->value)): ?>
+    <?=$this->escape($this->value)?>
+<?php endif; ?>

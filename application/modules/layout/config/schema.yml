@@ -1,0 +1,53 @@
+connection: base
+
+Layout:
+  tableName: layout
+  columns:
+    id_layout:
+      type: integer
+      primary: true
+      autoincrement: true
+    type: string (255)
+    id_layout_template: integer
+    id_user: integer
+    name: string (255)
+    data_map: string
+    is_default:
+      type: boolean
+      default: false
+    is_public:
+      type: boolean
+      default: false
+  relations:
+    User:
+      local: id_user
+      foreign: id_user
+      foreignAlias: Layouts
+      type: one
+      foreignType: many
+      onDelete: CASCADE
+    LayoutTemplate:
+      local: id_layout_template
+      foreign: id_layout_template
+      foreignAlias: Layouts
+      type: one
+      foreignType: many
+
+LayoutTemplate:
+  tableName: layout_template
+  options:
+    service: false
+  columns:
+    id_layout_template:
+      type: integer
+      primary: true
+      autoincrement: true
+    is_default:
+      type: boolean
+      default: false
+    is_system:
+      type: boolean
+      default: false
+    name: string (255)
+    filename: string (255)
+    data_map: string

@@ -1,0 +1,24 @@
+connection: base
+
+AclRole:
+  tableName: acl_role
+  options:
+    orderBy: order ASC
+  columns:
+    id_acl_role:
+      type: integer
+      primary: true
+      autoincrement: true
+    object: string (255)
+    order: integer
+    is_visible:
+      type: boolean
+      default: true
+    name:
+      type: string (255)
+      notnull: true
+    name_role:
+      type: string (255)
+      notnull: true
+
+    

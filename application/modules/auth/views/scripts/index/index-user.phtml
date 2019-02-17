@@ -1,0 +1,179 @@
+
+<?=$this->formFilter ?>
+
+<?php if($this->pager->getNumResults() === 0): ?>
+    <div class="alert alert-info">
+        <i class="fa-fw fa fa-info"></i><strong><?=$this->translate('label_empty_results')?></strong> <?=$this->translate('label_user_admin_list-empty')?>
+    </div>
+<?php else: ?>
+    <div class="row">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div id="mass-edit">
+                <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-editbutton="false"
+                    data-widget-deletebutton="false" data-widget-colorbutton="false" data-widget-sortable="false">
+                    <header>
+                        <span class="widget-icon">
+                            <i class="fa fa-users"></i>
+                        </span>
+                        <h2>
+                            <?php if ( $this->formFilter->hasQuery() ) : ?>
+                                <?=$this->escape($this->formFilter->getQuery('title')) ?>
+                            <?php else : ?>
+                                <?=$this->escape('Lista użytkowników') ?>
+                            <?php endif; ?>
+                        </h2>
+
+                    </header>
+                    <div>
+                        <div class="jarviswidget-editbox">
+
+                        </div>
+                        <div class="widget-body no-padding">
+                            <div class="table-responsive">
+                                <table id="table_<?=$this->formFilter->getSigId()?>" class="colResizable table table-condensed table-bordered table-striped table-hover dataTable user-list-table"
+                                   data-col-res-disable="1"
+                                    style="width: 100%;">
+                                    <thead>
+                                        <tr>
+                                            <?php if($this->massActionOptions): ?>
+                                                <th style="width: 20px;"></th>
+                                            <?php endif; ?>
+                                            <?=$this->partial('index/_list_th.phtml', array('filter' => $this->formFilter)) ?>
+                                            <th class="text-right" style="width: 110px;"><?=$this->escape('Opcje')?></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php $id_user = Base_Auth::getUser('id_user'); ?>
+                                    <?php foreach($this->userList as $user): /* @var $user User */ ?>
+
+                                        <tr>
+                                            <?php $avalibleColumns = array('id_user', 'fullname', 'email', 'created_at', 'role'); //$this->formFilter->column->getValue(); ?>
+                                            <?php foreach ($avalibleColumns as $column) : ?>
+                                                <?php if ( 'id_user' == $column ) : ?>
+                                                    <td><?=$this->escape($user['id_user']) ?></td>
+                                                <?php elseif ( 'fullname' == $column ) : ?>
+                                                    <td>
+
+                                                            <span class='bg-letter bg-letter-<?=strtolower(substr($user['name'],0,1))?>'>
+                                                                <?=strtoupper(substr($user['name'],0,1))?>
+                                                            </span>
+
+                                                        <a href="<?=Base::url('auth_index_edit', array('id_user' => $user['id_user'])) ?>"
+                                                           data-toggle="overbox"
+                                                           data-type="ajax"
+                                                        >
+                                                            <?=$this->escape($user['fullname']) ?>
+                                                        </a>
+
+                                                        <?php if ( $user['archived_at'] ) : ?>
+                                                            <span class="label label-warning"><?=$this->translate('label_archive') ?></span>
+                                                        <?php endif; ?>
+                                                    </td>
+                                                <?php elseif ( 'email' == $column ) : ?>
+                                                    <td>
+                                                        <a href="mailto: <?=$this->escape($user['email']) ?>">
+                                                            <?=$this->escape($user['email']) ?>
+                                                        </a>
+                                                    </td>
+
+                                                <?php elseif ( 'role' == $column ) : ?>
+                                                    <td>
+                                                        <?php if($user['role'] && !empty($user['role']) && intval($user['role'])>0 ) :?>
+                                                            <?php  $userRole = AclRole::getFullNameRoleById(intval($user['role'])); ?>
+                                                            <?=$this->escape($userRole->name)?>
+                                                        <?php else: ?>
+                                                            <?=$this->escape('-')?>
+                                                        <?php endif; ?>
+                                                    </td>
+                                                <?php elseif ( 'created_at' == $column ) : ?>
+                                                    <td><?=date('Y-m-d H:i', strtotime($user['created_at'])) ?></td>
+                                                <?php elseif ( 'name' == $column ) : ?>
+                                                    <td><?=$this->escape($user['name'])?></td>
+                                                <?php elseif ( 'surname' == $column ): ?>
+                                                    <td><?=$this->escape($user['surname'])?></td>
+                                                <?php endif; ?>
+                                            <?php endforeach; ?>
+
+                                            <td class="text-right">
+                                                <div class="btn-group">
+                                                    <a href="<?=Base::url('auth_index_edit', array('id_user' => $user['id_user'])) ?>"
+                                                       class="btn btn-default"
+                                                       data-toggle="overbox"
+                                                       data-type="ajax"
+                                                       data-wrap-style="width: 90%"
+                                                    >
+
+                                                        <i class="fa fa-eye"></i>
+                                                        <?=$this->escape('Edytuj')?>
+                                                    </a>
+
+
+                                                        <a href="javascript:void(0)" class="btn btn-default dropdown-toggle"
+                                                           data-toggle="dropdown">
+                                                            <span class="caret"></span>
+                                                        </a>
+                                                        <ul class="dropdown-menu dropdown-menu-right text-left">
+                                                                <li>
+                                                                        <a
+                                                                            data-toggle="overbox"
+                                                                            data-confirm-button="true"
+                                                                            data-header-title="<?=$this->translate('overbox_confirm_archived_title')?>"
+                                                                            data-content-body="#userOverboxBody<?=$user['id_user']?>"
+                                                                            href="<?=Base::url('auth_index_delete', array('id_user'=>$user['id_user']))?>"
+                                                                            rel="tooltip" data-placement="bottom"
+                                                                            data-original-title="<?=$this->translate('label_record_archive'); ?>"
+                                                                            title="Usuń użytkownika"
+                                                                            >
+                                                                            <i class="fa fa-trash"></i>
+                                                                            <?=$this->escape('Usuń');?>
+                                                                        </a>
+
+                                                                </li>
+                                                                <li>
+                                                                    <a
+                                                                        data-toggle="overbox"
+                                                                        data-confirm-button="true"
+                                                                        data-header-title="<?=$this->translate('overbox_confirm_archived_title')?>"
+                                                                        data-content-body="#userOverboxBody<?=$user['id_user']?>"
+                                                                        href="<?=Base::url('auth_index_archive', array('id_user'=>$user['id_user']))?>"
+                                                                        rel="tooltip" data-placement="bottom"
+                                                                        data-original-title="<?=$this->translate('label_record_archive'); ?>"
+                                                                        title="Archiwizuj użytkownika"
+                                                                        >
+                                                                        <i class="fa fa-trash"></i>
+                                                                        <?=$this->escape('Archiwizuj');?>
+                                                                    </a>
+
+                                                                </li>
+                                                        </ul>
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+                            <div class="dt-toolbar-footer dt-toolbar-footer-condensed">
+                                <div class="row">
+                                    <div class="col-md-4">
+
+                                    </div>
+                                    <div class="col-md-8">
+                                        <?=$this->render('pagination_admin.phtml') ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+<?php endif; ?>
+
+
+
+

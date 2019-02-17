@@ -1,0 +1,11 @@
+<?php if(isset($this->col) && isset($this->model[$this->col])): ?>
+    <?php $value = $this->model[$this->col]; ?>
+<?php elseif(isset($this->value)): ?>
+    <?php $value = $this->value; ?>
+<?php endif; ?>
+
+<?php if($value): ?>
+    <span class="label label-success"><?=$this->translate('label_yes')?></span>
+<?php else: ?>
+    <?=$this->translate('label_no')?>
+<?php endif; ?>

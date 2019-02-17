@@ -1,0 +1,62 @@
+connection: base
+
+User:
+  tableName: user
+  actAs:
+    SoftDelete:
+    Timestampable:
+  options:
+    select: o.*, e.*
+    search: CONCAT(o.name, o.surname, e.email)
+  columns:
+    id_user:
+      type: integer
+      primary: true
+      autoincrement: true
+    hash: { type: string, size: 32, log: false }
+    archived_at:
+      type: timestamp
+      notnull: false
+    role:
+      type: string (255)
+      notnull: true
+    email:
+      type: string (255)
+      notnull: true
+    name:
+      type: string (255)
+      notnull: true
+    surname:
+      type: string (255)
+      notnull: true
+    description:
+      type: string (255)
+      notnull: false
+    testing_systems:
+      type: string (255)
+      notnull: false
+    reporting_systems:
+      type: string (255)
+      notnull: false
+    knowledge_of_selenium:
+      type: boolean
+      notnull: false
+    ide_environment:
+      type: string (255)
+      notnull: false
+    programming_languages:
+      type: string (255)
+      notnull: false
+    knowledge_of_mysql:
+      type: boolean
+      notnull: false
+    pm_methodologies:
+      type: string (255)
+      notnull: false
+    pm_reports_systems:
+      type: string (255)
+      notnull: false
+    knowledge_of_scrum:
+      type: boolean
+      notnull: false
+

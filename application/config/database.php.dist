@@ -1,0 +1,25 @@
+<?php
+
+$config = array(
+    'connection' => 
+        'mysql://' . 
+        (getenv('MYSQL_USERNAME') ? getenv('MYSQL_USERNAME') : 'root') . ':' .
+        (getenv('MYSQL_PASSWORD') ? getenv('MYSQL_PASSWORD') : '') . '@' .
+        (getenv('MYSQL_DB_HOST') ? getenv('MYSQL_DB_HOST') : 'localhost') . '/' .
+        (getenv('MYSQL_DB_NAME') ? getenv('MYSQL_DB_NAME') : 'base-project_local'),
+    'options' => array(
+        'pearStyle' => true,
+        'baseClassPrefix' => "Table_",
+        'baseClassesDirectory' => "",
+        'baseClassName' => "Base_Doctrine_Record",
+    ),
+    'attributes' => array(
+        Doctrine::ATTR_QUOTE_IDENTIFIER => true,
+        Doctrine_Core::ATTR_USE_DQL_CALLBACKS => true,
+        Doctrine_Core::ATTR_QUERY_CLASS => 'Base_Query',
+    )
+
+);
+
+return $config;
+

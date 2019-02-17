@@ -1,0 +1,7 @@
+<?php if(isset($this->col) && isset($this->model[$this->col])): ?>
+    <img src="<?=Image::getUrl($this->model[$this->col], array('width' => 100, 'height' => 100, 'resize' => 'c'))?>" alt="" style="max-width: 30px;">
+<?php endif; ?>
+
+
+
+

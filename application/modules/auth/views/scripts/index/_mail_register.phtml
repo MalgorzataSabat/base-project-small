@@ -1,0 +1,55 @@
+<h3>Witaj <b><?=$this->user->getUserName()?>!<h3></b>
+<br/><br/>
+Dziękujemy za zarejestrowanie się w naszym systemie. <br/><br/>
+
+<div>
+    <div class="row" style="width: 100%; position: relative; float: left;">
+        <div class="col-md-12">
+            <div>
+                <dt style="float: left; width: 35%;">Imię:</dt>
+                <dd style="float: left; width: 55%;"><?=$this->escape($this->user['name'])?></dd>
+            </div>
+            <dl class="dl-horizontal dl-horizontal-sm">
+                <dt style="float: left; width: 35%;">Nazwisko:</dt>
+                <dd style="float: left; width: 55%;"><?=$this->escape($this->user['surname'])?></dd>
+            </dl>
+            <dl class="dl-horizontal dl-horizontal-sm">
+                <dt style="float: left; width: 35%;">Email:</dt>
+                <dd style="float: left; width: 55%;"><?=$this->escape($this->user['email'])?></dd>
+            </dl>
+            <dl class="dl-horizontal dl-horizontal-sm">
+                <dt style="float: left; width: 35%;">Opis:</dt>
+                <dd style="float: left; width: 55%;"><?= ($this->user['description']) ? $this->escape($this->user['description']) : ' - '; ?></dd>
+            </dl>
+            <dl class="dl-horizontal dl-horizontal-sm">
+                <dt style="float: left; width: 35%;">Data utworzenia:</dt>
+                <dd style="float: left; width: 55%;"><?=date('Y-m-d H:i', strtotime($this->user['created_at']))?></dd>
+            </dl>
+            <dl class="dl-horizontal dl-horizontal-sm">
+                <dt style="float: left; width: 35%;">Stanowisko:</dt>
+                <dd style="float: left; width: 55%;"><?=$this->escape($this->userRole['name']);?></dd>
+            </dl>
+            <?php if($this->rowsForm) : ?>
+                <?php foreach($this->rowsForm as $key=>$elem): ?>
+                    <dl class="dl-horizontal dl-horizontal-sm">
+                        <dt style="float: left; width: 35%;"><?=$this->escape($key);?>:</dt>
+                        <dd style="float: left; width: 55%;">
+                            <?php if(in_array($elem, $this->boolArray)):?>
+                                <?php if(intval($this->user[$elem]) == 1): ?>
+                                    <?=$this->escape('Tak');?>
+                                <?php else: ?>
+                                    <?=$this->escape('Nie');?>
+                                <?php endif; ?>
+                            <?php else: ?>
+                                <?= ($this->user[$elem]) ? $this->escape($this->user[$elem]) : ' - '; ?>
+                            <?php endif; ?>
+                        </dd>
+                    </dl>
+                <?php endforeach; ?>
+            <?php endif;?>
+        </div>
+    </div>
+</div>
+
+
+

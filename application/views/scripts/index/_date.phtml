@@ -1,0 +1,9 @@
+<?php if(isset($this->col) && isset($this->model[$this->col])): ?>
+    <?=$this->date($this->model[$this->col], array('format' => 'Y-m-d'))?>
+<?php elseif(isset($this->value)): ?>
+    <?=$this->date($this->value, array('format' => 'Y-m-d'))?>
+<?php endif; ?>
+
+
+
+

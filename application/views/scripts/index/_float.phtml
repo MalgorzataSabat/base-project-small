@@ -1,0 +1,7 @@
+<?php if(isset($this->col) && isset($this->model[$this->col])): ?>
+    <?php $value = $this->model[$this->col]; ?>
+<?php elseif(isset($this->value)): ?>
+    <?php $value = $this->value; ?>
+<?php endif; ?>
+
+<?=$this->escape($value)?>

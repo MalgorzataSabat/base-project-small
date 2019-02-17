@@ -1,0 +1,5 @@
+<?php if(isset($this->model[$this->modelColumn]) && $this->model[$this->modelColumn]): ?>
+    <?php foreach(json_decode($this->model['tags']) as $tag): ?>
+        <span class="label label-info"><?=$this->escape($tag) ?></span>
+    <?php endforeach; ?>
+<?php endif; ?>

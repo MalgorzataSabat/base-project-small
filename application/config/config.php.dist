@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * Cookie name to enable developer environment
+ */
+define('COOKIE_DEV', 'Cec6hi3piu5Du5iezhoh3aithohrae7ziph2');
+
+/**
+ * Cookie name to disable cache in application.
+ * Cache is disable only in developer environment
+ */
+define('COOKIE_NOCACHE', 'e56f425c2d3d048b14a125804a3349a9qwedf');
+
+/**
+ * Cookie name to enable ZF Debug
+ * ZF Debug is enable only in developer environment
+ */
+define('COOKIE_ZFDEBUG', '58ceee24de6d67851dc07837ed244a56');
+
+/**
+ * Default domain for application
+ */
+$domain = null;
+isset($_SERVER['HTTP_HOST']) && $domain = $_SERVER['HTTP_HOST'];
+!$domain && isset($_SERVER['SERVER_NAME']) && $domain = $_SERVER['SERVER_NAME'];
+!$domain && $domain = 'base-crm.local';
+
+define('DOMAIN', $domain);
+
+/**
+ * Default profocol for application
+ */
+define('PROTOCOL', 'http');
+
+define('MKDIR_MODE', 0644);

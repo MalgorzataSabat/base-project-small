@@ -1,0 +1,6 @@
+<?php
+
+$view = Base_Layout::getView();
+
+
+return $return;

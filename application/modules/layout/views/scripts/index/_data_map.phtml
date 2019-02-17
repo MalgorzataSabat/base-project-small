@@ -1,0 +1,34 @@
+<div class="map_placeholder">
+    <div class="btn-group btn-xs">
+        <a
+            class="btn browser btn-default add-widget"
+            data-fancybox-type="iframe"
+            href="<?=Base::url('layout_widget-list')?>"
+            data-placeholder="<?=$this->placeholder?>"
+            data-use-placeholder="0"
+        >
+            <i class="fa fa-plus-circle txt-color-greenLight"></i>
+            Dodaj widget
+        </a>
+    </div>
+
+    <div class="placeholder_widgets" data-placeholder="<?=$this->placeholder?>">
+        <?php if(isset($this->map['widgets'])) foreach($this->map['widgets'] as $k => $v): ?>
+            <?php
+                $form = null;
+                if(isset($v['_form']))
+                {
+                    $v['_form']->setAttrib('name', $this->translate($v['_form']->getAttrib('name')));
+                    $form = $v['_form'];
+                }
+                elseif(class_exists($v['_class']))
+                {
+                    $f = new $v['_class']();
+                    $v['_BelongsTo'] = 'data_map['.$this->placeholder.'][widgets]['.$k.']';
+                    $form = $f->form($v);
+                }
+            ?>
+            <?=$form?>
+        <?php endforeach; ?>
+    </div>
+</div>

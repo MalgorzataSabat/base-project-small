@@ -1,0 +1,70 @@
+<?php $this->placeholder('page-title')->captureStart(); ?>
+    <i class="fa fa-cloud-download"></i>
+    <?=$this->translate('h1_page_admin_widgets-list')?>
+<?php $this->placeholder('page-title')->captureEnd(); ?>
+
+
+<div class="well">
+
+    <?php if(count($this->list) === 0): ?>
+        <div class="alert alert-info">
+            <i class="fa-fw fa fa-info"></i><strong><?=$this->translate('label_empty_results')?></strong> <?=$this->translate('label_page_admin_widgets_list_empty')?>
+        </div>
+    <?php else: ?>
+        <div class="row">
+            <?php foreach($this->list as $v => $k) : ?>
+                <?php foreach($k as $vv => $kk) : ?>
+                    <div class="col-md-3 col-sm-4 padding-bottom-10">
+                        <?php $widget = new $kk(); ?>
+                        <a onClick="return false;" href="<?=Base::url('layout_widget-get', array('namespace' => $v, 'widget' => $kk))?>"
+                           class="get-widget btn btn-primary btn-sm">
+                            <i class="fa fa-download"></i>
+                        </a>
+                        <span class="title">
+                            <?=$this->translate(str_replace(' ', '_', strtolower($widget->name)))?>
+                        </span>
+                    </div>
+                <?php endforeach; ?>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
+</div>
+
+
+
+
+<script type="text/javascript">
+    <?php $this->headScript()->captureStart(); ?>
+    jQuery(function($) {
+        var el = parent.jQuery.fancybox.coming.element;
+        var map_placeholder = el.parent().parent();
+
+        $('a.get-widget').click(function(){
+           var url = $(this).attr('href');
+           $.ajax({
+                dataType: "html"
+                ,type: 'post'
+                ,url: url
+                , data: {
+                   'placeholder':el.data('placeholder'),
+                   'belong_to':el.data('belong-to'),
+//                   'use-placeholder':el.data('use-placeholder'),
+//                   'dont-use-datamap':el.data('dont-use-datamap'),
+               }
+                ,beforeSend: function(){
+                    parent.jQuery.fancybox.showLoading();
+                }
+               ,success: function(data){
+                   map_placeholder.find('.placeholder_widgets').append(data);
+//                   parent.trigger_loaded('body');
+//                   parent.initLoaded.init('body');
+                   parent.jQuery.fancybox.hideLoading();
+                   parent.jQuery.fancybox.close();
+               }
+            });
+
+        });
+    });
+
+    <?php $this->headScript()->captureEnd(); ?>
+</script>

@@ -1,0 +1,7 @@
+<?php if(isset($this->col) && isset($this->model[$this->col])): ?>
+    <?= number_format($this->model[$this->col], 2, '.', ' ') ?>
+    <small class="text-muted">PLN</small>
+<?php elseif(isset($this->value)): ?>
+    <?= number_format($this->value, 2, '.', ' ') ?>
+    <small class="text-muted">PLN</small>
+<?php endif; ?>

@@ -1,0 +1,42 @@
+<?php $this->placeholder('page-title')->captureStart(); ?>
+    <i class="fa fa-tachometer txt-color-purple"></i>
+    <?php if($this->model->isNew()): ?>
+        Nowy układ strony
+    <?php else: ?>
+        Edycja układu strony
+    <?php endif; ?>
+<?php $this->placeholder('page-title')->captureEnd(); ?>
+
+
+
+<?= $this->form ?>
+
+
+<script type="text/javascript">
+    <?php $this->headScript()->captureStart(); ?>
+    jQuery(function($) {
+        $('body').on('change', "#id_layout_template", changeLayout);
+    });
+
+    var changeLayout = function(){
+        $.ajax({
+            dataType: "json"
+            ,type: 'post'
+            ,url: '<?=Base::url('layout_load-template')?>'
+            ,data: {
+                'id_layout_template':$(this).val(),
+                'id_layout': '<?=$this->model->getId()?>',
+                'id_user': <?= Base_Auth::getUserId()?>,
+            }
+            ,beforeSend: function(){
+                $('.layout_data-map').addClass('preloader');
+            }
+            ,success: function(data){
+                $('.layout_data-map').html(data.html).removeClass('preloader');
+                sortWidgets();
+            }
+        });
+    }
+    <?php $this->headScript()->captureEnd(); ?>
+</script>
+

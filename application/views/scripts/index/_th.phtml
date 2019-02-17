@@ -1,0 +1,30 @@
+<?php $sortCols = $this->filter->getSortCols(); ?>
+<?php $avalibleColumns = $this->filter->column->getValue(); ?>
+<?php $fieldPrefix = isset($this->fieldPrefix) ? $this->fieldPrefix.'.' : ''; ?>
+
+
+<?php foreach($avalibleColumns as $column): ?>
+    <?php
+    $class = '';
+    if ( isset($sortCols[$column]) ) {
+        $class = 'sorting';
+        if ( $this->filter->getValue('order') == $column ) {
+            $class = $this->filter->getValue('order_direction') == 'ASC' ? 'sorting_asc' : 'sorting_desc';
+        }
+    }
+    ?>
+    <th class="<?=$class?>">
+        <?php if(isset($sortCols[$column])) : ?>
+            <a
+                href="<?=$this->urlSortForm($this->filter, $column)?>"
+            >
+                <?=$this->escape(Base::getFiledName($fieldPrefix.$column, 'short'))?>
+            </a>
+        <?php else : ?>
+            <?=$this->escape(Base::getFiledName($fieldPrefix.$column, 'short'))?>
+        <?php endif; ?>
+    </th>
+<?php endforeach; ?>
+
+
+

@@ -1,0 +1,20 @@
+<?php $this->placeholder('page-title')->captureStart(); ?>
+    <i class="fa fa-home"></i> <?=$this->translate('cms-page-title_dashboard') ?>
+    <?php if(!$this->layoutService->getLayout('is_default')): ?>
+        <span>
+            &raquo; <?=$this->escape($this->layoutService->getLayout('name'))?>
+            <a href="?id_layout=" class="remove"><i class="fa fa-remove txt-color-pink"></i></a>
+        </span>
+    <?php endif; ?>
+<?php $this->placeholder('page-title')->captureEnd(); ?>
+
+<?php $this->placeholder('page-button')->captureStart(); ?>
+    <div class="page-title pull-right">
+
+        <?=$this->partial('layout/_layout_options.phtml', array(
+            'layoutService' => $this->layoutService
+        ))?>
+    </div>
+<?php $this->placeholder('page-button')->captureEnd(); ?>
+
+<?=$this->layoutService->render();?>

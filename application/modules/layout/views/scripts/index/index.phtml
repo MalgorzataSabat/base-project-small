@@ -1,0 +1,89 @@
+<?php $this->placeholder('page-title')->captureStart(); ?>
+    <?= $this->translate('h1_layout_admin_list') ?>
+<?php $this->placeholder('page-title')->captureEnd(); ?>
+
+<?php if($this->pager->getNumResults() === 0): ?>
+    <div class="alert alert-info">
+        <?= $this->translate('label_layout_admin_list-empty') ?>
+    </div>
+<?php else: ?>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th width="10"></th>
+                <th><?= $this->translate('label_layout_admin_list_name') ?></th>
+                <th class="col-md-2 text-center"><?= $this->translate('label_layout_admin_list_module') ?></th>
+                <th class="col-md-2 text-center"><?= $this->translate('label_layout_admin_list_filename') ?></th>
+                <th class="col-md-1 text-center"><?= $this->translate('label_layout_admin_list_is_edit') ?></th>
+                <th class="col-md-1 text-center"><?= $this->translate('label_layout_admin_list_is_dashboard') ?></th>
+                <th class="col-md-1 text-center"><?= $this->translate('label_layout_admin_list_is_main') ?></th>
+                <th class="col-md-1 text-center"><?= $this->translate('label_layout_admin_list_is_default') ?></th>
+                <th class="col-md-2 text-right"><?= $this->translate('label_layout_admin_list-options') ?></th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach($this->layoutList as $layout): /* @var $layout Layout */ ?>
+                <tr>
+                    <td>
+       					<span class="glyphicon glyphicon-list-alt icon-blue"></span>
+                    </td>
+
+                    <td>
+                        <?= $this->escape($layout['name']) ?>
+                    </td>
+
+                    <td class="text-center"><?= $this->escape($layout['module']) ?></td>
+
+                    <td class="text-center"><?= $this->escape($layout['filename']) ?></td>
+
+                    <td class="text-center">
+                        <?php if($layout['is_edit']): ?>
+                            <i class="glyphicon glyphicon-ok text-success"></i>
+                        <?php else: ?>
+                            <i class="glyphicon glyphicon-remove text-danger"></i>
+                        <?php endif; ?>
+                    </td>
+
+                    <td class="text-center">
+                        <?php if($layout['is_dashboard']): ?>
+                            <i class="glyphicon glyphicon-ok text-success"></i>
+                        <?php else: ?>
+                            <i class="glyphicon glyphicon-remove text-danger"></i>
+                        <?php endif; ?>
+                    </td>
+
+                    <td class="text-center">
+                        <?php if($layout['is_main']): ?>
+                            <i class="glyphicon glyphicon-ok text-success"></i>
+                        <?php else: ?>
+                            <i class="glyphicon glyphicon-remove text-danger"></i>
+                        <?php endif; ?>
+                    </td>
+
+                    <td class="text-center">
+                        <?php if($layout['is_default']): ?>
+                            <i class="glyphicon glyphicon-ok text-success"></i>
+                        <?php else: ?>
+                            <i class="glyphicon glyphicon-remove text-danger"></i>
+                        <?php endif; ?>
+                    </td>
+
+                    <td class="col-md-2 text-right">
+                        <a class="btn btn-xs btn-success" href="<?= Base::url('layout_admin_edit', array('id_layout'=>$layout['id_layout'])) ?>"><i class="glyphicon glyphicon-edit"></i></a>
+
+                        <a
+                            class="btn btn-xs btn-info confirmModal"
+                            data-text=""
+                            data-label="<?= $this->translate('cms_modal_layout_label_copy') ?>"
+                            data-title="<?= $this->translate('cms_modal_layout_label_copy_accept') ?>"
+                            href="<?= Base::url('layout_admin_copy', array('id_layout'=>$layout['id_layout'])) ?>"
+                        >
+                            <i class="glyphicon glyphicon-share"></i>
+                        </a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+    <?= $this->render('pagination_admin.phtml') ?>
+<?php endif; ?>

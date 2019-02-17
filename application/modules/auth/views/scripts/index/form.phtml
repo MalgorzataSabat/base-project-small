@@ -1,0 +1,66 @@
+<?php $this->placeholder('page-button')->captureStart(); ?>
+    <div class="page-title pull-right">
+        <a class="btn btn-primary btn-labeled" href="<?=Base::url('user')?>">
+            <div class="btn-label">
+                <i class="fa fa-users"></i>
+            </div>
+            <?=$this->translate('label_user_admin_form_list')?>
+        </a>
+    </div>
+
+<?php $this->placeholder('page-button')->captureEnd(); ?>
+
+<div class="row">
+    <?php if ( $this->model['archived_at'] !== null ) : ?>
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="alert alert-warning">
+                    <i class="fa-fw fa fa-info"></i><strong><?=$this->translate('label_archive_alert')?></strong>
+                </div>
+        </article>
+    <?php endif; ?>
+    <article class="col-xs-12 col-md-12 col-lg-12">
+        <div class="well" style="padding-top: 0;">
+            <?=$this->formUser ?>
+        </div>
+    </article>
+
+
+</div>
+
+
+<script type="text/javascript">
+    <?php $this->headScript()->captureStart(); ?>
+    $(document).ready(function(){
+
+        var loadRoleForms = $('select#User_Form_User-role').val();
+        if(loadRoleForms && loadRoleForms>0) {
+            $('.form-inputs-details').hide();
+            $('fieldset#fieldset-details_' + loadRoleForms + ' input').removeClass('hidden');
+            $('fieldset#fieldset-details_' + loadRoleForms).show();
+
+        }
+
+        $('select#User_Form_User-role').change(function(){
+            var chooseRole =  $(this).val();
+
+            $('.form-inputs-details').hide();
+            if(chooseRole && chooseRole>0){
+                $('fieldset#fieldset-details_'+chooseRole+' input').removeClass('hidden');
+                $('fieldset#fieldset-details_'+chooseRole).show();
+
+            } else {
+                $('.form-inputs-details').hide();
+            }
+        });
+
+
+
+        $("html, body").on('click', function() {
+            $('.search-result-contener').hide();
+        });
+
+
+    });
+    <?php $this->headScript()->captureEnd(); ?>
+</script>
+

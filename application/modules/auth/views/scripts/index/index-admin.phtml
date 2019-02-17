@@ -1,0 +1,48 @@
+<?php $this->placeholder('page-title')->captureStart(); ?>
+    <?=$this->translate('auth_title_index_login')?>
+<?php $this->placeholder('page-title')->captureEnd(); ?>
+
+
+<div data-widget-editbutton="false" data-widget-colorbutton="false" class="jarviswidget">
+    <header>
+        <h1 class="page-title txt-color-blueDark pull-left">
+            <i class="fa fa-user-plus txt-color-greenLight"></i> <?=$this->title_index_registration_user?>
+        </h1>
+    </header>
+    <div>
+        <div class="widget-body">
+            <?=$this->authFormLogin?>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    <?php $this->headScript()->captureStart(); ?>
+    $(document).ready(function(){
+
+        $('select#User_Form_User-role').change(function(){
+            var chooseRole =  $(this).val();
+
+            $('.form-inputs-details').hide();
+            if(chooseRole && chooseRole>0){
+                $('fieldset#fieldset-details_'+chooseRole+' input').removeClass('hidden');
+                $('fieldset#fieldset-details_'+chooseRole).show();
+
+            } else {
+                $('.form-inputs-details').hide();
+            }
+
+
+        });
+
+
+        $("html, body").on('click', function() {
+            $('.search-result-contener').hide();
+        });
+
+
+
+    });
+    <?php $this->headScript()->captureEnd(); ?>
+</script>
+

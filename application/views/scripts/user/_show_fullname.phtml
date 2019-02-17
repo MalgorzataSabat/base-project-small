@@ -1,0 +1,9 @@
+<?php if($this->value): ?>
+    <a href="<?=Base::url('user_show', array('id_user' => $this->value)) ?>"
+       data-toggle="overbox"
+       data-type="ajax"
+       data-wrap-style="width: 90%"
+        >
+        <?=$this->escape(User::getFullnameById($this->value)) ?>
+    </a>
+<?php endif; ?>

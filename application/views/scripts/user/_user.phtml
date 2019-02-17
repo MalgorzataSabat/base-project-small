@@ -1,0 +1,26 @@
+<?php
+    $col = 'id_user';
+    isset($this->col) && $col = $this->col;
+    isset($this->modelColumn) && $col = $this->modelColumn;
+?>
+
+<?php if(isset($this->user) || (isset($this->model[$col]) && $this->model[$col])): ?>
+    <?php $user = isset($this->user) ? $this->user : User::getById($this->model[$col]); ?>
+    <?php if($user): ?>
+        <?php
+            $userHtmlAtrr = $user['archived_at'] ? 'class="text-muted" style="text-decoration: line-through"' : '';
+            $userHtml = '<span '.$userHtmlAtrr.'>'.$this->escape($user['fullname']).'</span>';
+        ?>
+
+        <?php if($this->hasAccess('user_read')): ?>
+            <a href="<?=Base::url('user_show', array('id_user' => $user['id_user'])) ?>"
+               data-type="ajax"
+               data-toggle="overbox"
+            >
+                <?=$userHtml?>
+            </a>
+        <?php else: ?>
+            <?=$userHtml?>
+        <?php endif; ?>
+    <?php endif; ?>
+<?php endif; ?>

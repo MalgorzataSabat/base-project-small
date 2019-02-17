@@ -1,0 +1,8 @@
+<?php if(isset($this->col) && isset($this->model[$this->col])): ?>
+    <?=$this->date($this->model[$this->col])?>
+<?php elseif(isset($this->value)): ?>
+    <?=$this->date($this->value)?>
+<?php endif; ?>
+
+
+

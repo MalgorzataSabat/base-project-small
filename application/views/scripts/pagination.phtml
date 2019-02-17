@@ -1,0 +1,52 @@
+<?php if($this->countItem) : ?>
+    <div class="col-md-6 pull-right">
+        <div class="text-right">
+            <span class="label label-primary">
+                <?=$this->escape('Elementów na liście')?>
+                <?=$this->pager->getResultsInPage() + (($this->pager->getPage() - 1) * $this->pager->getMaxPerPage())?>
+                <?=$this->escape('z')?>
+                <?=$this->pager->getNumResults()?>
+            </span>
+        </div>
+    </div>
+<?php endif; ?>
+<?php if( $this->pager->getLastPage() > 1 ): ?>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="text-center">
+                <ul class="pagination pagination-sm">
+                    <li>
+                        <a href="<?=$this->url()?>?page=<?=$this->pager->getPreviousPage()?><?php if(isset($this->paginationAnhor)): ?>#<?=$this->paginationAnhor?><?php endif; ?>" class="previous">&laquo; poprzednia</a>
+                    </li>
+
+                    <?php if( !$this->pagerRange->isInRange(1) ): ?>
+                        <li>
+                            <a href="<?=$this->url()?>?page=1<?php if(isset($this->paginationAnhor)): ?>#<?=$this->paginationAnhor?><?php endif; ?>" class="first">1</a>
+                        </li>
+                        <li class="disabled"><a href="#">...</a></li>
+                    <?php endif; ?>
+
+                    <?php foreach( $this->pages as $page ): ?>
+                        <?php if( $this->pager->getPage() == $page ): ?>
+                            <li class="active"><a href="#"><?=$page?></a></li>
+                        <?php else: ?>
+                            <li>
+                                <a href="<?=$this->url()?>?page=<?=$page?><?php if(isset($this->paginationAnhor)): ?>#<?=$this->paginationAnhor?><?php endif; ?>" class="page"><?=$page?></a>
+                            </li>
+                        <?php endif;?>
+                    <?php endforeach; ?>
+
+                    <?php if( !$this->pagerRange->isInRange( $this->pager->getLastPage() ) ): ?>
+                        <li class="disabled"><a href="#">...</a></li>
+                        <li>
+                            <a href="<?=$this->url()?>?page=<?=$this->pager->getLastPage()?><?php if(isset($this->paginationAnhor)): ?>#<?=$this->paginationAnhor?><?php endif; ?>" class="last"><?=$this->pager->getLastPage()?></a>
+                        </li>
+                    <?php endif; ?>
+                    <li>
+                        <a href="<?=$this->url()?>?page=<?=$this->pager->getNextPage()?><?php if(isset($this->paginationAnhor)): ?>#<?=$this->paginationAnhor?><?php endif; ?>" class="next">następna &raquo;</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>

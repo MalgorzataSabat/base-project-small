@@ -1,0 +1,37 @@
+<?php $sortCols = $this->filter->getSortCols(); ?>
+<?php $avalibleColumns =  array('id_user', 'fullname', 'email', 'created_at', 'role'); ?>
+
+<?php foreach($avalibleColumns as $column): ?>
+    <?php
+    $style= '';
+    if($column == 'id_user'){
+        $style.= 'width:30px;';
+    }
+
+    if ( isset($sortCols[$column]) ) {
+        $class = 'sorting';
+        if ( $this->filter->getValue('order') == $sortCols[$column] ) {
+            $class = $this->filter->getValue('order_direction') == 'ASC' ? 'sorting_asc' : 'sorting_desc';
+        }
+    }
+    ?>
+    <th class="<?=$class?>" style="<?=$style?>">
+        <?php if($column == 'id_user') { $column_name = 'ID';} ?>
+        <?php if($column == 'fullname') { $column_name = 'Imię i nazwisko';} ?>
+        <?php if($column == 'email') { $column_name = 'E-mail';} ?>
+        <?php if($column == 'created_at') { $column_name = 'Data dodania';} ?>
+        <?php if($column == 'role') { $column_name = 'Stanowisko';} ?>
+        <?php if(isset($sortCols[$column])) : ?>
+            <a
+                href="<?=$this->urlSortForm($this->filter, $sortCols[$column])?>"
+                >
+                <?=$this->escape($column_name)?>
+            </a>
+        <?php else : ?>
+            <?=$this->escape($column_name)?>
+        <?php endif; ?>
+    </th>
+<?php endforeach; ?>
+
+
+

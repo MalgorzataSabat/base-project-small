@@ -1,0 +1,35 @@
+<div class="map_placeholder">
+    <div class="btn-group">
+        <a class="btn btn-labeled btn-success browser add-widget"
+           href="<?=$this->widgetListUrl ?>"
+            data-fancybox-type="iframe"
+            data-placeholder="<?=$this->placeholder ?>"
+            data-belong-to="<?=$this->belongTo ?>"
+            data-user-placeholder="0"
+            >
+            <span class="btn-label">
+                <i class="fa fa-plus"></i>
+            </span>
+            <i class="fa fa-flag icon-dark"></i> <?=$this->placeholder ?>
+        </a>
+    </div>
+
+    <div class="placeholder_widgets" data-placeholder="<?=$this->placeholder?>"><?php if(isset($this->map['widgets'])) foreach($this->map['widgets'] as $k => $v): ?>
+            <?php
+                $form = null;
+                if(isset($v['_form']))
+                {
+                    $v['_form']->setAttrib('name', $this->translate($v['_form']->getAttrib('name')));
+                    $form = $v['_form'];
+                }
+                elseif(class_exists($v['_class']))
+                {
+                    $f = new $v['_class']();
+                    $v['_BelongsTo'] = $this->belongTo.'[data_map]['.$this->placeholder.'][widgets]['.$k.']';
+                    $form = $f->form($v);
+                }
+            ?>
+            <?=$form?>
+        <?php endforeach; ?></div>
+
+</div>

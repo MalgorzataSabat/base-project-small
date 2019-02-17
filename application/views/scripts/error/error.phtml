@@ -1,0 +1,49 @@
+<?= $this->doctype() ?>
+<html lang="en">
+<head>
+    <?php
+    $this->headLink()
+        ->prependStylesheet('/assets/css/style.css')
+    ;?>
+
+    <?php $this->headScript()
+        ->prependFile('/assets/lib/bootstrap/js/bootstrap.min.js')
+        ->prependFile('/assets/lib/jquery/jquery.last.min.js'); ?>
+
+    <?php echo $this->headTitle(); ?>
+    <?php echo $this->headMeta()->toString() . "\r\n" ?>
+    <?php echo $this->headLink()->toString() . "\r\n" ?>
+</head>
+<body>
+    <div class="container">
+
+        <h3>Exception message:</h3>
+        <pre class="alert alert-danger"><?= $this->exception->getMessage() ?></pre>
+        <pre><strong>File:</strong> <?= $this->exception->getFile() ?><br/><strong>Line:</strong> <?= $this->exception->getLine() ?></pre>
+        <pre><strong>Trace:</strong><br/><?= $this->exception->getTraceAsString() ?></pre>
+
+        <h3  style="padding:0">Request Parameters:</h3>
+        <?php Zend_Debug::dump($this->request->getParams()); ?>
+
+        <?php if ($this->show_extended_trace): ?>
+            <h3  style="padding:0">Extended stack trace:</h3>
+            <?php Zend_Debug::dump($this->exception->getTrace()); ?>
+        <?php endif; ?>
+
+        <?php $out = array();
+        exec("tail -n 30 /tmp/php.log", $out); ?>
+        <h3  style="padding:0">Last 30 lines of php.log:</h3>
+        <pre>
+            <?php foreach ($out as $line): ?>
+                <?= $line . "\n" ?>
+        <?php endforeach; ?>
+        </pre>
+
+        <footer>
+            <p>&copy; Company 2013</p>
+        </footer>
+
+    </div> <!-- /container -->
+    <?php echo $this->headScript() ?>
+</body>
+</html>
